@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,7 +29,6 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     ticker = createTicker(onUpdate)..start();
   }
@@ -90,8 +88,6 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
                 shader.setFloat(1, size.height);
                 shader.setFloat(2, desiredPosition.dx);
                 shader.setFloat(3, desiredPosition.dy);
-                // shader.setFloat(4, position.dx);
-                // shader.setFloat(5, position.dy);
                 shader.setFloat(4, velocity.dx * 40);
                 shader.setFloat(5, velocity.dy * 40);
                 shader.setImageSampler(0, image);
@@ -123,24 +119,3 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
     );
   }
 }
-
-
-
-// class ShaderPainter extends CustomPainter {
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     var shader = _program.fragmentShader();
-//     shader.setFloat(0, size.width);
-//     shader.setFloat(1, size.height);
-//     final paint = Paint()..shader = shader;
-//     canvas.drawRect(
-//       Rect.fromLTWH(0, 0, size.width, size.height),
-//       paint,
-//     );
-//   }
-
-//   @override
-//   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-//     return true;
-//   }
-// }
