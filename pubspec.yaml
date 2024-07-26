@@ -1,0 +1,26 @@
+name: shader_hello
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_shaders: ^0.1.2
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  shaders:
+    - lib/shaders/shader.frag
+    - lib/shaders/simple.frag
+    - lib/shaders/debug.frag
+    - lib/shaders/image.frag
