@@ -1,3 +1,3 @@
-# shader_hello
+# rgb_split_distortion_example
 
-A new Flutter project.
+This is an example of how to create a RGB split distortion effect using shaders and Flutter.
