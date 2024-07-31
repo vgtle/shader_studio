@@ -1,121 +1,55 @@
-import 'dart:math';
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_shaders/flutter_shaders.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:shader_studio/pages/skeleton_page.dart';
 
-late final FragmentProgram _program;
 Future<void> main() async {
-  _program = await FragmentProgram.fromAsset('lib/shaders/shader.frag');
+  final rgbSplitDistortionShader =
+      await ui.FragmentProgram.fromAsset('lib/shaders/shader.frag');
+  final motionBlurDistortionShader =
+      await ui.FragmentProgram.fromAsset('lib/shaders/shader3.frag');
 
-  runApp(const MainApp());
+  runApp(
+    ShaderProvider(
+      shader: ShaderCollection(
+        rgbSplitDistortionShader: rgbSplitDistortionShader,
+        motionBlurDistortionShader: motionBlurDistortionShader,
+      ),
+      child: MaterialApp(
+        theme: ThemeData.dark(),
+        home: const ShaderPage(),
+      ),
+    ),
+  );
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+class ShaderProvider extends InheritedWidget {
+  const ShaderProvider({
+    super.key,
+    required this.shader,
+    required super.child,
+  });
+
+  final ShaderCollection shader;
+
+  static ShaderCollection of(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ShaderProvider>();
+    return provider!.shader;
+  }
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  bool updateShouldNotify(covariant ShaderProvider oldWidget) {
+    return oldWidget.shader != shader;
+  }
 }
 
-class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
-  Offset position = Offset.zero;
-  Offset desiredPosition = Offset.zero;
-  Offset velocity = Offset.zero;
-  late final Ticker ticker;
-  Duration lastTime = Duration.zero;
+class ShaderCollection {
+  final ui.FragmentProgram rgbSplitDistortionShader;
+  final ui.FragmentProgram motionBlurDistortionShader;
 
-  @override
-  void initState() {
-    super.initState();
-    ticker = createTicker(onUpdate)..start();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    ticker.dispose();
-  }
-
-  void onUpdate(Duration elapsed) {
-    final delta = ((elapsed.inMicroseconds - lastTime.inMicroseconds) /
-            Duration.microsecondsPerSecond) *
-        60;
-
-    lastTime = elapsed;
-
-    if (desiredPosition == position) {
-      return;
-    }
-
-    setState(() {
-      final distance = desiredPosition - position;
-      final amplitude = 1 - max(0, 1000 - distance.distance) / 1000;
-      velocity =
-          distance * (0.02 + 0.2 * Curves.easeInOut.transform(amplitude));
-
-      position += velocity * delta;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          backgroundColor: Colors.white,
-          body: GestureDetector(
-            onPanStart: (details) {
-              setState(() {
-                desiredPosition = details.globalPosition;
-                position = details.globalPosition;
-              });
-            },
-            onPanUpdate: (event) {
-              setState(() {
-                desiredPosition = event.globalPosition;
-              });
-            },
-            onPanEnd: (details) => setState(() {}),
-            onPanCancel: () => setState(() {}),
-            child: AnimatedSampler(
-              (image, size, canvas) {
-                final shader = _program.fragmentShader();
-
-                shader.setFloat(0, size.width);
-                shader.setFloat(1, size.height);
-                shader.setFloat(2, desiredPosition.dx);
-                shader.setFloat(3, desiredPosition.dy);
-                shader.setFloat(4, velocity.dx * 40);
-                shader.setFloat(5, velocity.dy * 40);
-                shader.setImageSampler(0, image);
-                canvas.drawRect(
-                  Rect.fromLTWH(0, 0, size.width, size.height),
-                  Paint()..shader = shader,
-                );
-              },
-              key: const Key('animated_sampler'),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Text(
-                      "Hello World! " * 21,
-                      style: GoogleFonts.montserrat(
-                          fontSize: 30,
-                          color: const Color.fromARGB(255, 244, 247, 255),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )),
-    );
-  }
+  ShaderCollection({
+    required this.rgbSplitDistortionShader,
+    required this.motionBlurDistortionShader,
+  });
 }

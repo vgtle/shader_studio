@@ -1,4 +1,4 @@
-name: shader_hello
+name: shader_studio
 description: "A new Flutter project."
 publish_to: "none"
 version: 0.1.0
@@ -22,3 +22,4 @@ flutter:
   shaders:
     - lib/shaders/shader.frag
     - lib/shaders/debug.frag
+    - lib/shaders/shader3.frag

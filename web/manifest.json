@@ -1,6 +1,6 @@
 {
-    "name": "shader_hello",
-    "short_name": "shader_hello",
+    "name": "shader_studio",
+    "short_name": "shader_studio",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
