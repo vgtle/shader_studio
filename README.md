@@ -1,16 +1,23 @@
 # shader_studio
 
-A new Flutter project.
+This app showcases my implementation of different shaders. 
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Implemented shaders
+### Motion Blurred List
+This shaders adds motion blur and varying distortion at the edges of the screen depending on the scroll speed.
 
-A few resources to get you started if this is your first Flutter project:
+![Simulator Screen Recording - iPhone 15 Pro - 2024-07-30 at 14 54 15](https://github.com/user-attachments/assets/c8c5fb76-285b-4468-afd3-cded2eaaaae7)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### RGB Split Distortion Effect
+This is actually the Flutter implementation of a shader from https://x.com/dankuntz. It adds RGB Split and some distortion to the screen where the user touches.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Simulator Screen Recording - iPhone 15 Pro - 2024-07-26 at 12 35 04](https://github.com/user-attachments/assets/56dbc8a3-a706-4814-842d-9b47f67ccd3b)
+
+## Structure
+Under 
+- lib/shaders you will the shaders.
+- lib/pages you will find the pages implementing the shaders.
+
+## NOTICE 
+Only works on iOS and macOS right now. For help with Android and Web feel free to contact me or open a PR.
