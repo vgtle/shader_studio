@@ -20,6 +20,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   shaders:
-    - lib/shaders/shader.frag
+    - lib/shaders/rgb.frag
     - lib/shaders/debug.frag
-    - lib/shaders/shader3.frag
+    - lib/shaders/blur.frag

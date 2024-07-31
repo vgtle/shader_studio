@@ -7,7 +7,15 @@
         {
             "name": "shader_studio",
             "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "shader_studio impeller",
+            "request": "launch",
             "type": "dart",
+            "args": [
+                "--enable-impeller"
+            ]
         },
         {
             "name": "shader_studio (profile mode)",

@@ -86,52 +86,59 @@ class _MotionBlurDistortionPageState extends State<MotionBlurDistortionPage> {
               Paint()..shader = shader,
             );
           },
-          child: ListView.builder(
-            padding: const EdgeInsets.all(20),
-            physics: const BouncingScrollPhysics(),
-            controller: _controller,
-            itemBuilder: (context, index) => Padding(
-              key: ValueKey(index),
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                    BoxShadow(
-                      color: ui.Color.fromARGB(31, 104, 98, 37),
-                      blurRadius: 20,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(28),
-                  border: Border.all(
-                    color: colors[Random().nextInt(colors.length)],
-                    width: 2,
-                  ),
-                ),
-                child: Padding(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(20),
+                physics: const BouncingScrollPhysics(),
+                prototypeItem: const SizedBox(height: 200),
+                controller: _controller,
+                itemBuilder: (context, index) => Padding(
+                  key: ValueKey(index),
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(22),
-                          child: Image.network(
-                            "https://picsum.photos/400/200?random=$index",
-                            fit: BoxFit.cover,
-                          ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 10,
+                          spreadRadius: 2,
                         ),
+                        BoxShadow(
+                          color: ui.Color.fromARGB(31, 104, 98, 37),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(
+                        color: colors[index % colors.length],
+                        width: 2,
                       ),
-                    ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(22),
+                              child: Image.network(
+                                "https://picsum.photos/400/200?random=$index",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
+                itemCount: 500,
               ),
             ),
-            itemCount: 500,
           ),
         ),
       ),
