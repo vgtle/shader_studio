@@ -5,9 +5,9 @@ import 'package:shader_studio/pages/skeleton_page.dart';
 
 Future<void> main() async {
   final rgbSplitDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/shader.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/rgb.frag');
   final motionBlurDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/shader3.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/blur.frag');
 
   runApp(
     ShaderProvider(
