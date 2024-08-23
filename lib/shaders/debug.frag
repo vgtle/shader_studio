@@ -22,16 +22,4 @@ void main() {
   }
 
   frag_color = vec4(0.0, 0.0, 0.0, 0);
-
-  //    if (length(l - p ) > length(m)){
-  //     float distance =  length(l - p ) / length(m);
-  //     frag_color = vec4(0.0, 0.0, 0.0, 0);
-  //     return;
-  // } else {
-  //     float distance =  length(l - p ) / length(m);
-
-  //     frag_color = vec4(0, 0, 0, 1 - distance);
-  //     return;
-  // }
-
 }

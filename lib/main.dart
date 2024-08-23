@@ -8,12 +8,15 @@ Future<void> main() async {
       await ui.FragmentProgram.fromAsset('lib/shaders/rgb.frag');
   final motionBlurDistortionShader =
       await ui.FragmentProgram.fromAsset('lib/shaders/blur.frag');
+  final perlinShader =
+      await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
 
   runApp(
     ShaderProvider(
       shader: ShaderCollection(
         rgbSplitDistortionShader: rgbSplitDistortionShader,
         motionBlurDistortionShader: motionBlurDistortionShader,
+        perlinShader: perlinShader,
       ),
       child: MaterialApp(
         theme: ThemeData.dark(),
@@ -47,9 +50,11 @@ class ShaderProvider extends InheritedWidget {
 class ShaderCollection {
   final ui.FragmentProgram rgbSplitDistortionShader;
   final ui.FragmentProgram motionBlurDistortionShader;
+  final ui.FragmentProgram perlinShader;
 
   ShaderCollection({
     required this.rgbSplitDistortionShader,
     required this.motionBlurDistortionShader,
+    required this.perlinShader,
   });
 }

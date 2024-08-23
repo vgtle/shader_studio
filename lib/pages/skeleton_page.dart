@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shader_studio/pages/intelligence/intelligence_page.dart';
 import 'package:shader_studio/pages/motion_blur_distortion_list/motion_blur_distortion_list.dart';
 import 'package:shader_studio/pages/rgb_split_distortion/rgb_split_distortion_page.dart';
 
@@ -27,6 +28,7 @@ class _ShaderPageState extends State<ShaderPage> {
           children: const [
             RgbSplitDistortionPage(),
             MotionBlurDistortionPage(),
+            IntelligencePage(),
           ],
         ),
         Positioned(
@@ -58,6 +60,15 @@ class _ShaderPageState extends State<ShaderPage> {
                     onTap: () {
                       setState(() {
                         index = 1;
+                      });
+                    },
+                  ),
+                  Option(
+                    title: Text('Intelligence'),
+                    selected: index == 2,
+                    onTap: () {
+                      setState(() {
+                        index = 2;
                       });
                     },
                   )
