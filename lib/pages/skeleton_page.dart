@@ -26,53 +26,56 @@ class _ShaderPageState extends State<ShaderPage> {
         IndexedStack(
           index: index,
           children: const [
-            RgbSplitDistortionPage(),
-            MotionBlurDistortionPage(),
             IntelligencePage(),
+            Placeholder(),
+            Placeholder(),
           ],
         ),
         Positioned(
           bottom: 32,
           left: 16,
           right: 16,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            elevation: 8,
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Option(
-                    title: Text('RGB Split Distortion'),
-                    selected: index == 0,
-                    onTap: () {
-                      setState(() {
-                        index = 0;
-                      });
-                    },
-                  ),
-                  Option(
-                    title: Text('Motion Blur'),
-                    selected: index == 1,
-                    onTap: () {
-                      setState(() {
-                        index = 1;
-                      });
-                    },
-                  ),
-                  Option(
-                    title: Text('Intelligence'),
-                    selected: index == 2,
-                    onTap: () {
-                      setState(() {
-                        index = 2;
-                      });
-                    },
-                  )
-                ],
+          child: Offstage(
+            offstage: true,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 8,
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Option(
+                      title: Text('RGB Split Distortion'),
+                      selected: index == 0,
+                      onTap: () {
+                        setState(() {
+                          index = 0;
+                        });
+                      },
+                    ),
+                    Option(
+                      title: Text('Motion Blur'),
+                      selected: index == 1,
+                      onTap: () {
+                        setState(() {
+                          index = 1;
+                        });
+                      },
+                    ),
+                    Option(
+                      title: Text('Intelligence'),
+                      selected: index == 2,
+                      onTap: () {
+                        setState(() {
+                          index = 2;
+                        });
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),

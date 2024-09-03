@@ -2,9 +2,16 @@
 
 uniform vec2 uSize;
 uniform float uTime;
+uniform float bass;
+uniform float lowerMid;
+uniform float mid;
+uniform float higherMid;
+uniform float treble;
+uniform float air;
 
 uniform sampler2D uTexture;
 out vec4 frag_color;
+
 
 
 /// ==== Helpers ====
@@ -105,20 +112,53 @@ float getEdgeOffset(vec2 p, float strength, float o, float factor) {
 
 }
 
+float easeInOutCubic(float t) {
+  return t < 0.5
+    ? 4.0 * t * t * t
+    : 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0;
+}
+
+float getStrength(float x1, float y1) {
+  float distanceFactorH = 0.3;
+  float y = 1 - y1;
+  float distance = 0.3;
+  float normalizationFactor = 1 / distance;
+  float limit = 20;
+  float factorMulti =1;
+  float bassFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(0.0 - y))) * min(bass, limit) * factorMulti;
+  float lowerMidFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(0.2 - y))) * min(lowerMid, limit) * factorMulti;
+  float midFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(0.4 - y))) * min(mid, limit) * factorMulti;
+  float higherMidFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(0.6 - y))) * min(higherMid, limit) * factorMulti;
+  float trebleFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(0.8 - y))) * min(treble, limit) * factorMulti;
+  float airFactor = easeInOutCubic(normalizationFactor * max(0, distance - abs(1.0 - y))) * min(air, limit) * factorMulti;
+  float factor = abs(bassFactor + lowerMidFactor + midFactor + higherMidFactor + trebleFactor + airFactor);
+  float factorH = max(0, distanceFactorH - abs(1.0 - x1)) + max(0, distanceFactorH - abs(0 - x1)) + max(0, distance - abs(1.0 - y)) + max(0, distance - abs(0 - y));
+
+  return min(factor * (1 -(factor / (factor + 6  ))) * factorH, 1);
+}
+
+
+
 void main() {
    vec2 p = FlutterFragCoord().xy;
   vec2 p_y_n = p / uSize.y;
   vec2 p_n = p / uSize;
-    float n = color(p_y_n * 1.0);
-    float n2 = color(p_y_n * 4.0);
-    float a = 0;
-    float strength = 1.4;
-    a = getEdgeOffset(p, strength, (n * 8 + n2 * 5), 12) ;
-    float a2 = getEdgeOffset(p, strength, (n * 8 + n2 * 5), 30) ;
-    frag_color = texture(uTexture, p_n);
-    vec3 color = hsv2rgb(vec3(((p_n.y / 1.8) + 0.7) + uTime / 20,1, 1.5));
+    float frequencyFactor = getStrength(p_n.x, p_n.y) * 1.3;
 
-    frag_color = vec4(a * 0.2 * color  + frag_color.xyz + a2 * 0.5 , 1);
+    float n = color(p_y_n * 1.0 + (frequencyFactor * 0.1));
+    float n2 = color(p_y_n * 0.4+ (frequencyFactor * 0.1));
+    float a = 0;
+    
+    float strength = 0.6 + (frequencyFactor * 0.1);
+
+    a = getEdgeOffset(p, strength , (n * 40 + n2 * 2), 12) ;
+    float a2 = easeInOutCubic(getEdgeOffset(p, strength , (n * 6 + n2 * 2), 30)) ;
+    float a3 = getEdgeOffset(p, strength , (n * 20 + n2 * 2), 1) ;
+
+    frag_color = texture(uTexture, p_n);
+    vec3 color = hsv2rgb(vec3(((p_n.y / 4) ) + uTime / 7,0.80, 1));
+
+    frag_color = vec4(a * (0.04 + (frequencyFactor * 0.43 + (a3 *0.01))) * color  + frag_color.xyz + a2 * 0.35 + (frequencyFactor * 0.14) , 1);
     // frag_color = vec4(n, n, n, 1);
 }
 

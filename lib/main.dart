@@ -5,9 +5,9 @@ import 'package:shader_studio/pages/skeleton_page.dart';
 
 Future<void> main() async {
   final rgbSplitDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/rgb.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
   final motionBlurDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/blur.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
   final perlinShader =
       await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
 
@@ -19,6 +19,7 @@ Future<void> main() async {
         perlinShader: perlinShader,
       ),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(),
         home: const ShaderPage(),
       ),

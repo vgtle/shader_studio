@@ -4,6 +4,8 @@
 <dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Audio for the intelligence shader demo</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition for the intelligence shader demo</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
