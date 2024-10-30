@@ -12,11 +12,27 @@ class ShaderPage extends StatefulWidget {
   State<ShaderPage> createState() => _ShaderPageState();
 }
 
-class _ShaderPageState extends State<ShaderPage> {
+class _ShaderPageState extends State<ShaderPage>
+    with SingleTickerProviderStateMixin {
   int index = 0;
+  bool collapsed = false;
+  late final AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    )..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -26,9 +42,9 @@ class _ShaderPageState extends State<ShaderPage> {
         IndexedStack(
           index: index,
           children: const [
+            RgbSplitDistortionPage(),
+            MotionBlurDistortionPage(),
             IntelligencePage(),
-            Placeholder(),
-            Placeholder(),
           ],
         ),
         Positioned(
@@ -36,45 +52,108 @@ class _ShaderPageState extends State<ShaderPage> {
           left: 16,
           right: 16,
           child: Offstage(
-            offstage: true,
+            offstage: false,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
               elevation: 8,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Option(
-                      title: Text('RGB Split Distortion'),
-                      selected: index == 0,
-                      onTap: () {
-                        setState(() {
-                          index = 0;
-                        });
-                      },
-                    ),
-                    Option(
-                      title: Text('Motion Blur'),
-                      selected: index == 1,
-                      onTap: () {
-                        setState(() {
-                          index = 1;
-                        });
-                      },
-                    ),
-                    Option(
-                      title: Text('Intelligence'),
-                      selected: index == 2,
-                      onTap: () {
-                        setState(() {
-                          index = 2;
-                        });
-                      },
-                    )
-                  ],
+                padding: const EdgeInsets.all(8.0),
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOutCirc,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              transitionBuilder: (child, animation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              child: collapsed
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: switch (index) {
+                                            0 => const Text(
+                                                'RGB Split Distortion'),
+                                            1 => const Text('Motion Blur'),
+                                            2 => const Text('Intelligence'),
+                                            _ =>
+                                              throw Exception('Invalid index'),
+                                          }),
+                                    )
+                                  : const SizedBox(),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                icon: AnimatedRotation(
+                                  turns: collapsed ? 0.25 : 0.75,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const Icon(
+                                    Icons.chevron_left,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    collapsed = !collapsed;
+                                    if (collapsed) {
+                                      _controller.forward();
+                                    } else {
+                                      _controller.reverse();
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ]),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: collapsed
+                            ? const SizedBox()
+                            : Column(
+                                children: [
+                                  Option(
+                                    title: const Text('RGB Split Distortion'),
+                                    selected: index == 0,
+                                    onTap: () {
+                                      setState(() {
+                                        index = 0;
+                                      });
+                                    },
+                                  ),
+                                  Option(
+                                    title: const Text('Motion Blur'),
+                                    selected: index == 1,
+                                    onTap: () {
+                                      setState(() {
+                                        index = 1;
+                                      });
+                                    },
+                                  ),
+                                  Option(
+                                    title: const Text('Intelligence'),
+                                    selected: index == 2,
+                                    onTap: () {
+                                      setState(() {
+                                        index = 2;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

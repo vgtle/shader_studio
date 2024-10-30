@@ -5,11 +5,13 @@ import 'package:shader_studio/pages/skeleton_page.dart';
 
 Future<void> main() async {
   final rgbSplitDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/rgb.frag');
   final motionBlurDistortionShader =
-      await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
+      await ui.FragmentProgram.fromAsset('lib/shaders/blur.frag');
   final perlinShader =
       await ui.FragmentProgram.fromAsset('lib/shaders/perlin.frag');
+  final shockwaveShader =
+      await ui.FragmentProgram.fromAsset('lib/shaders/shockwave.frag');
 
   runApp(
     ShaderProvider(
@@ -17,6 +19,7 @@ Future<void> main() async {
         rgbSplitDistortionShader: rgbSplitDistortionShader,
         motionBlurDistortionShader: motionBlurDistortionShader,
         perlinShader: perlinShader,
+        shockwaveShader: shockwaveShader,
       ),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -52,10 +55,12 @@ class ShaderCollection {
   final ui.FragmentProgram rgbSplitDistortionShader;
   final ui.FragmentProgram motionBlurDistortionShader;
   final ui.FragmentProgram perlinShader;
+  final ui.FragmentProgram shockwaveShader;
 
   ShaderCollection({
     required this.rgbSplitDistortionShader,
     required this.motionBlurDistortionShader,
     required this.perlinShader,
+    required this.shockwaveShader,
   });
 }

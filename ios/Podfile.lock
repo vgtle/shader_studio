@@ -12,7 +12,11 @@ PODS:
     - Flutter
     - flutter_sound_core (= 9.11.3)
   - flutter_sound_core (9.11.3)
+  - flutter_tts (0.0.1):
+    - Flutter
   - just_audio (0.0.1):
+    - Flutter
+  - livespeechtotext (0.0.1):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -37,7 +41,9 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_audio_capture (from `.symlinks/plugins/flutter_audio_capture/ios`)
   - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
+  - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
+  - livespeechtotext (from `.symlinks/plugins/livespeechtotext/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
@@ -62,8 +68,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_audio_capture/ios"
   flutter_sound:
     :path: ".symlinks/plugins/flutter_sound/ios"
+  flutter_tts:
+    :path: ".symlinks/plugins/flutter_tts/ios"
   just_audio:
     :path: ".symlinks/plugins/just_audio/ios"
+  livespeechtotext:
+    :path: ".symlinks/plugins/livespeechtotext/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
@@ -83,7 +93,9 @@ SPEC CHECKSUMS:
   flutter_audio_capture: 93ef890ac148f093d168c33258c3a161b8f5e04b
   flutter_sound: dfb449c1614b5f36920e911df34cef85fb5b139f
   flutter_sound_core: 2d5e3da78252ad6330542efc4f7230aa3e00747c
+  flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
+  livespeechtotext: 554d747665baa83e841438e88cf8ad7d2fafd8bc
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   record_darwin: df0a677188e5fed18472550298e675f19ddaffbe

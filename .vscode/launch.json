@@ -7,14 +7,18 @@
         {
             "name": "shader_studio",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=.env"
+            ]
         },
         {
             "name": "shader_studio impeller",
             "request": "launch",
             "type": "dart",
             "args": [
-                "--enable-impeller"
+                "--enable-impeller",
+                "--dart-define-from-file=.env"
             ]
         },
         {
@@ -22,12 +26,18 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
+            "args": [
+                "--dart-define-from-file=.env"
+            ],
         },
         {
             "name": "shader_studio (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
+            "args": [
+                "--dart-define-from-file=.env"
+            ],
         }
     ]
 }

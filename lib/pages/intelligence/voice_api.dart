@@ -1,28 +1,42 @@
 import 'dart:async';
-import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:audio_session/audio_session.dart';
-import 'package:dart_numerics/dart_numerics.dart';
 import 'package:fftea/fftea.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:logger/logger.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
-import 'package:wav/wav_file.dart';
 
 class VoiceApi {
-  AudioRecorder _audioRecorder = AudioRecorder();
+  final record = AudioRecorder();
+
+  VoiceApi() {
+    _flutterAudioCapture.init().then((value) {
+      if (value == false) {
+        throw Exception("Failed to initialize FlutterAudioCapture");
+      }
+      _isInitialized.complete(true);
+    });
+  }
+
+  final FlutterAudioCapture _flutterAudioCapture = FlutterAudioCapture();
+  final Completer<bool> _isInitialized = Completer();
 
   Future<void> startRecording(
       void Function(List<({FrequencySpectrum spectrum, double value})> data)
           onData) async {
-    FlutterAudioCapture plugin = FlutterAudioCapture();
-    await plugin.init();
-
-    plugin.start(
+    await _isInitialized.future;
+    await AudioSession.instance.then(
+      (value) async {
+        await value.configure(
+          const AudioSessionConfiguration(
+            avAudioSessionCategory: AVAudioSessionCategory.record,
+            avAudioSessionCategoryOptions:
+                AVAudioSessionCategoryOptions.mixWithOthers,
+          ),
+        );
+      },
+    );
+    _flutterAudioCapture.start(
       (data) {
         final buffer = data;
         final fft = FFT(buffer.length);
@@ -76,10 +90,16 @@ class VoiceApi {
         }).toList();
         onData(frequencyValues);
       },
-      (e) {},
+      (e) {
+        debugPrint(e);
+      },
       sampleRate: 44000,
       bufferSize: 256,
     );
+  }
+
+  Future<void> stopRecording() async {
+    return _flutterAudioCapture.stop();
   }
 }
 
